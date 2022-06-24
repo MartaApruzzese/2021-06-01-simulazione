@@ -66,7 +66,16 @@ public class Model {
 		
 	}
 	
-	
+	public List<Adiacente> getGeniAdiacenti(Genes partenza){
+		List<Genes> result= new ArrayList<>	();
+		List<Adiacente> adiacenze=new ArrayList<>();
+		result.addAll(Graphs.neighborListOf(this.grafo, partenza));
+		for(Genes g: result) {
+			adiacenze.add(new Adiacente(g, this.grafo.getEdgeWeight(this.grafo.getEdge(partenza, g))));
+		}
+		Collections.sort(adiacenze);
+		return adiacenze;
+	}
 	
 	public int numVertici() {
 		return this.vertici.size();
@@ -74,5 +83,9 @@ public class Model {
 	
 	public int numArchi() {
 		return this.grafo.edgeSet().size();
+	}
+	
+	public List<Genes> getVertici(){
+		return this.vertici;
 	}
 }

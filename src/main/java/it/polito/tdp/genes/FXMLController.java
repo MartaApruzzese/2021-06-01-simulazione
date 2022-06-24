@@ -5,8 +5,11 @@
 package it.polito.tdp.genes;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.genes.model.Adiacente;
 import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
 import javafx.event.ActionEvent;
@@ -49,13 +52,24 @@ public class FXMLController {
     	txtResult.clear();
     	this.model.creaGrafo();
     	txtResult.setText("Grafo creato con "+this.model.numVertici()+" vertici e "+this.model.numArchi()+" archi.\n");
-
+    	cmbGeni.getItems().clear();
+    	for(Genes g: this.model.getVertici()) {
+    		cmbGeni.getItems().add(g);
+    	}
     }
 
     @FXML
     void doGeniAdiacenti(ActionEvent event) {
-
-    	
+    	Genes partenza= cmbGeni.getValue();
+    	if(partenza.equals(null)) {
+    		txtResult.setText("Selezionare un gene dalla box");
+    		return;
+    	}
+    	List<Adiacente> interazioni= new ArrayList<>(this.model.getGeniAdiacenti(partenza));
+    	txtResult.appendText("\n\nGeni adiacenti a : "+partenza.getGeneId());
+    	for(Adiacente a: interazioni) {
+    		txtResult.appendText("\n"+a.getGene1()+"  peso: "+a.getPeso() );
+    	}
     }
 
     @FXML
