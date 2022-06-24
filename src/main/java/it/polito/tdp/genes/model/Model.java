@@ -88,4 +88,14 @@ public class Model {
 	public List<Genes> getVertici(){
 		return this.vertici;
 	}
+	
+	public Map<Genes, Integer> simulaIngegneri(Genes partenza, int n){
+		try {
+			Simulazione sim= new Simulazione(partenza, this.grafo,n);
+			sim.run();
+			return sim.geniStudiati();
+		}catch(IllegalArgumentException e) {
+			return null;
+		}
+	}
 }

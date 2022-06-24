@@ -7,6 +7,7 @@ package it.polito.tdp.genes;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.genes.model.Adiacente;
@@ -75,6 +76,31 @@ public class FXMLController {
     @FXML
     void doSimula(ActionEvent event) {
 
+    	Genes partenza= cmbGeni.getValue();
+    	if(partenza==null) {
+    		txtResult.setText("Inserire un gene!");
+    		return;
+    	}
+    	
+    	int n;
+    	try {
+    		n= Integer.parseInt(txtIng.getText());
+    	}catch(NumberFormatException e) {
+    		txtResult.appendText("Inserire un valore numerico.");
+    		return;
+    	}
+    	
+    	Map<Genes, Integer> studiati= model.simulaIngegneri(partenza, n);
+    	
+    	if(studiati==null) {
+    		txtResult.appendText("Il gene selezionato è isolato!");
+ 
+    	}
+    	
+    	txtResult.appendText("Risultato Simulazione: \n");
+    	for(Genes g: studiati.keySet()) {
+    		txtResult.appendText(g+" "+studiati.get(g)+ "\n");
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
